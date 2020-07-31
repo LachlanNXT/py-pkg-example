@@ -51,7 +51,7 @@ class Binomial(Distribution):
         #               variable.   
         self.calculate_mean()
         self.calculate_stdev()
-        Distribution.__init__(self.mean, self.stdev)
+        Distribution.__init__(self, self.calculate_mean, self.calculate_stdev)
     
     def calculate_mean(self):
     
@@ -69,6 +69,8 @@ class Binomial(Distribution):
         #       via the self variable and also return the new mean value
                 
         self.mean = self.p * self.n 
+        
+        return self.mean
 
 
 
@@ -88,7 +90,9 @@ class Binomial(Distribution):
         #       the result in the self standard deviation attribute. Return the value
         #       of the standard deviation.
         
-        self.stdev = math.sqrt(self.p * (1-self.p) / self.n)
+        self.stdev = math.sqrt(self.n * self.p * (1-self.p) )
+        
+        return self.stdev
         
         
         
@@ -178,8 +182,8 @@ class Binomial(Distribution):
         
         nF = math.factorial(self.n)
         kF = math.factorial(k)
-        nCk = nF / ( kF * math.factorial(n-k) )
-        return nCk * math.pow(p,k) * math.pow(1-p,n-k)
+        nCk = nF / ( kF * math.factorial(self.n-k) )
+        return nCk * math.pow(self.p,k) * math.pow(1-self.p,self.n-k)
         
 
     def plot_bar_pdf(self):
